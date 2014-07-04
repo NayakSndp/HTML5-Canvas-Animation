@@ -1,0 +1,1271 @@
+<html>
+<head>
+<link rel="stylesheet" href="timepass.css"/>
+</head>
+<body onload="canvas_draw()">
+<div class="main">
+ 
+<canvas id="timepass" height="560" width="1100">
+</canvas>
+<canvas id="road" height="160" width="1100">
+</canvas>
+<div id="indicator">
+</div>
+<table id="tab1" border="1">
+<tr><td id="indicator_back"></td></tr>
+</table>
+<table id="tab2" border="1">
+<tr><td id="tail_lamp1"></td></tr>
+</table>
+<table id="tab3" border="1">
+<tr><td id="tail_lamp2"></td></tr>
+</table>
+ 
+<input id="indicator_start" type="button" onclick="start_indicator()" value="Start Indicator"/>
+<input id="indicator_stop" type="button" onclick="stop_indicator()" value="Stop Indicator"/>
+<input  type="button" onclick="headlights_on()" value="Turn on HL"/>
+<input  type="button" onclick="headlights_off()" value="Turn off HL"/>
+<input  type="button" onclick="startengine()" value="Start Engine"/>
+ 
+ 
+ 
+ 
+<canvas id="backcanvas" width="1100" height="860"></canvas>
+<div class="back_light_left">
+<table id="left_indi" border="1">
+<tr><td></td></tr>
+</table>
+<table class="tail_lamps" border="1">
+<tr><td></td></tr>
+</table>
+<table class="tail_lamps" border="1">
+<tr><td></td></tr>
+</table>
+</div>
+<div class="back_light_right">
+<table id="right_indi" border="1">
+<tr><td></td></tr>
+</table>
+<table class="tail_lamps" border="1">
+<tr><td></td></tr>
+</table>
+<table class="tail_lamps" border="1">
+<tr><td></td></tr>
+</table>
+</div>
+ 
+<input id="back_button1" type="button" onclick="back_left_indicator()" value="Left Indicator"/>
+<input id="back_button2" type="button" onclick="back_right_indicator()" value="Right Indicator"/>
+<input id="back_button3" type="button" onclick="back_brakes()" value="Brakes"/>
+<input id="back_button4" type="button" onclick="back_viper()" value="Viper"/>
+<input id="back_button5" type="button" onclick="back_rain()" value="Rain"/>
+ 
+</div>
+</body>
+<script type="text/javascript">
+var a=document.getElementById("timepass");
+var ctx=a.getContext("2d");
+ 
+var a=document.getElementById("road");
+var context=a.getContext("2d");
+var angle=0.1;
+var angle1=0.1;
+var p=0;
+var building=0;
+var cycle=1000;
+var auto=-2000;
+var hump=-2000;
+var signboard=-2500;
+var noentry=-3500;
+var distance_board=-5000;
+var milestone=-7000;
+var indian_oil=-9000;
+ 
+function canvas_draw(){
+ctx.clearRect(0,200,1100,560);
+ctx.lineWidth="5";
+//draw car base
+ctx.beginPath();
+ctx.moveTo(100,500);
+ctx.lineTo(180,500);
+ctx.stroke();
+ 
+ctx.beginPath(); // front tyre arc
+ctx.arc(220,500,40,Math.PI,2*Math.PI,false);
+ctx.stroke();
+ 
+ctx.clearRect(195,495,50,50);// rotation effect
+ 
+ctx.beginPath(); // front tyre
+if(100+hump+40>=200 && 100+hump+40<=295){
+ctx.arc(220,520-10,35,0,2*Math.PI,false);
+}
+else{
+ctx.arc(220,520,35,0,2*Math.PI,false);
+}
+ 
+ctx.fillStyle="black";
+ctx.fill();
+ctx.stroke();
+ 
+ctx.beginPath(); // front tyre
+if(100+hump+40>=200 && 100+hump+40<=295){
+ctx.arc(220,520-10,25,0,2*Math.PI,false);
+}
+else{
+ctx.arc(220,520,25,0,2*Math.PI,false);
+}
+ 
+ctx.fillStyle="white";
+ctx.fill();
+ctx.stroke();
+ctx.beginPath(); // front tyre
+if(100+hump+40>=200 && 100+hump+40<=295){
+ctx.arc(220,520-10,5,0,2*Math.PI,false);
+}
+else{
+ctx.arc(220,520,5,0,2*Math.PI,false);
+}
+ 
+ctx.fillStyle="white";
+ctx.fill();
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(260,500);
+ctx.lineTo(460,500);
+ctx.stroke();
+ 
+// rotate lines
+if(100+hump+40>=200 && 100+hump+40<=295){
+   hump_y=510;
+}
+else{
+hump_y=520;
+}
+ 
+angle1--;
+x1=220+25*Math.cos(Math.PI/2-angle);
+y1=hump_y+25*Math.sin(Math.PI/2-angle);
+x2=220+25*Math.cos(Math.PI-angle);
+y2=hump_y+25*Math.sin(Math.PI-angle);
+x3=220+25*Math.cos(3*Math.PI/2-angle);
+y3=hump_y+25*Math.sin(3*Math.PI/2-angle);
+x4=220+25*Math.cos(2*Math.PI-angle);
+y4=hump_y+25*Math.sin(2*Math.PI-angle);
+ctx.beginPath();
+ctx.moveTo(220,hump_y);
+ctx.lineTo(x1,y1);
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(220,hump_y);
+ctx.lineTo(x2,y2);
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(220,hump_y);
+ctx.lineTo(x3,y3);
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(220,hump_y);
+ctx.lineTo(x4,y4);
+ctx.stroke();
+ 
+ctx.beginPath(); // back tyre arc
+ctx.arc(500,500,40,Math.PI,2*Math.PI,false);
+ctx.stroke();
+ 
+ctx.clearRect(475,495,50,50);// rotation effect
+ 
+ctx.beginPath(); // back tyre
+if(100+hump+40>=500 && 100+hump+40<=585){
+ctx.arc(500,520-10,35,0,2*Math.PI,false);
+}
+else{
+ctx.arc(500,520,35,0,2*Math.PI,false);
+}
+ 
+ctx.fillStyle="black";
+ctx.fill();
+ctx.stroke();
+ctx.beginPath(); // back tyre
+if(100+hump+40>=500 && 100+hump+40<=585){
+ctx.arc(500,520-10,25,0,2*Math.PI,false);
+}
+else{
+ctx.arc(500,520,25,0,2*Math.PI,false);
+}
+ 
+ctx.fillStyle="white";
+ctx.fill();
+ctx.stroke();
+ctx.beginPath(); // back tyre
+if(100+hump+40>=500 && 100+hump+40<=585){
+ctx.arc(500,520-10,5,0,2*Math.PI,false);
+}
+else{
+ctx.arc(500,520,5,0,2*Math.PI,false);
+}
+ 
+ctx.fillStyle="white";
+ctx.fill();
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(540,500);
+ctx.lineTo(620,500);
+ctx.stroke();
+ 
+// rotate lines
+if(100+hump+40>=500 && 100+hump+40<=585){
+   hump_y=510;
+}
+else{
+hump_y=520;
+}
+angle--;
+x1=500+25*Math.cos(Math.PI/2-angle);
+y1=hump_y+25*Math.sin(Math.PI/2-angle);
+x2=500+25*Math.cos(Math.PI-angle);
+y2=hump_y+25*Math.sin(Math.PI-angle);
+x3=500+25*Math.cos(3*Math.PI/2-angle);
+y3=hump_y+25*Math.sin(3*Math.PI/2-angle);
+x4=500+25*Math.cos(2*Math.PI-angle);
+y4=hump_y+25*Math.sin(2*Math.PI-angle);
+ctx.beginPath();
+ctx.moveTo(500,hump_y);
+ctx.lineTo(x1,y1);
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(500,hump_y);
+ctx.lineTo(x2,y2);
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(500,hump_y);
+ctx.lineTo(x3,y3);
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(500,hump_y);
+ctx.lineTo(x4,y4);
+ctx.stroke();
+//ctx.arc(500,520,25,0,Math.PI/2,true);
+//ctx.arc(500,520,25,0,Math.PI/2,true);
+//ctx.arc(500,520,25,0,Math.PI/2,true);
+ 
+//car base ends
+ 
+// draw car front top
+ctx.beginPath();
+ctx.moveTo(100,500);
+ctx.lineTo(110,420);
+ctx.stroke();
+ 
+ctx.beginPath();
+ctx.moveTo(110,420);
+ctx.lineTo(250,390);
+ctx.stroke();
+ 
+ctx.beginPath();
+ctx.moveTo(250,390);
+ctx.lineTo(300,280);
+ctx.stroke();
+ 
+ctx.beginPath();
+ctx.moveTo(300,280);
+ctx.lineTo(560,280);
+ctx.stroke();
+ 
+ctx.beginPath();
+ctx.moveTo(560,280);
+ctx.lineTo(620,380);
+ctx.stroke();
+ 
+ctx.beginPath();
+ctx.moveTo(620,380);
+ctx.lineTo(620,500);
+ctx.stroke();
+ 
+ctx.beginPath();
+ctx.rect(650,400,10,60);
+ctx.fillStyle="black";
+ctx.fill();
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(620,450);
+ctx.lineTo(650,450);
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(620,410);
+ctx.lineTo(650,410);
+ctx.stroke();
+ 
+//top design ends
+ 
+ 
+// begin windows and doors
+ctx.beginPath();
+ctx.moveTo(370,500);
+ctx.lineTo(380,400);
+ctx.stroke();
+ 
+ctx.beginPath();
+ctx.moveTo(270,400);
+ctx.lineTo(500,400);
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(500,400);
+ctx.lineTo(620,390);
+ctx.stroke();
+ 
+ctx.beginPath();
+ctx.moveTo(500,400);
+ctx.lineTo(500,460);
+ctx.stroke();
+ 
+ctx.beginPath();
+ctx.moveTo(270,400);
+ctx.lineTo(260,500);
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(270,400);
+ctx.lineTo(250,390);
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(250,390);
+ctx.lineTo(620,380);
+ctx.stroke();
+ 
+ctx.beginPath();
+ctx.arc(360,420,5,0,Math.PI,false);
+ctx.fillStyle="black";
+ctx.fill();
+ctx.stroke();
+ 
+ 
+ 
+ctx.beginPath();
+ctx.arc(465,420,5,0,Math.PI,false);
+ctx.fillStyle="black";
+ctx.fill();
+ctx.stroke();
+ 
+// exit gas
+ 
+ctx.beginPath();
+ctx.moveTo(600,500);
+ctx.lineTo(620,520);
+ctx.lineTo(650,520);
+ctx.stroke();
+ 
+//ctx.rect(0,10,50,200);
+//ctx.fillStyle="red";
+//ctx.fill();
+ 
+ 
+// cycle remove
+                cycle=cycle-30;
+                ctx.beginPath();  // front tyre
+                ctx.arc(780+cycle,500,60,0,2*Math.PI,true);
+                ctx.stroke();      
+                ctx.beginPath();
+                ctx.arc(780+cycle,500,70,16/9*Math.PI,4*Math.PI/3,true);  // front tyre arc
+                ctx.stroke();
+               
+                ctx.beginPath();  // front tyre center circle
+                ctx.arc(780+cycle,500,5,0,2*Math.PI,true);
+                ctx.fillStyle="black";
+                ctx.fill();
+               
+                x=780+cycle+70*Math.cos(16/9*Math.PI);
+                y=500+70*Math.sin(16/9*Math.PI);
+                //alert(x);
+                //alert(y);
+                ctx.beginPath();// cycle handle above front tyre
+                ctx.moveTo(x,y);
+                ctx.lineTo(x+40,y-100);
+                ctx.stroke();
+               
+                ctx.beginPath(); // cycle left and right handles
+                ctx.moveTo(x+40,y-100);
+                ctx.lineTo(x+40-35,y-100-40);
+                ctx.lineTo(x+40-5,y-100-60);
+                ctx.stroke();
+               
+                ctx.beginPath(); // cycle left and right handles
+                ctx.moveTo(x+40,y-100);
+                ctx.lineTo(x+40+35,y-100+40);
+                ctx.lineTo(x+40+60,y-100+20);
+                ctx.stroke();
+               
+                ctx.beginPath();
+                ctx.moveTo(x+15,y-40);
+                ctx.lineTo(x+45+140,y-40);
+                ctx.lineTo(x+45+140,y-70);//seat rod
+                ctx.stroke();
+               
+                ctx.beginPath(); //seat
+                ctx.rect(x+45+110,y-70-20,60,20);
+                ctx.fillStyle="black";
+                ctx.fill();
+                ctx.stroke();
+               
+                ctx.beginPath();
+                ctx.moveTo(x+45+140,y-40);
+                ctx.lineTo(x+45+160,y);
+                ctx.stroke();
+               
+                ctx.beginPath();  // back tyre
+                ctx.arc(1080+cycle,500,60,0,2*Math.PI,true);
+                ctx.stroke();      
+                ctx.beginPath();
+                ctx.arc(1080+cycle,500,70,16/9*Math.PI,23*Math.PI/18,true);  // back tyre arc
+                ctx.stroke();
+               
+                ctx.beginPath();  // back tyre center circle
+                ctx.arc(1080+cycle,500,15,0,2*Math.PI,true);
+                ctx.fillStyle="black";
+                ctx.fill();
+               
+               
+                ctx.beginPath();
+                ctx.moveTo(x+15,y-40);
+                ctx.lineTo(x+15+60,y-40+80);
+                ctx.lineTo(x+45+155,y-8);
+                ctx.stroke();
+               
+                               
+                ctx.beginPath();  //chain
+                ctx.arc(x+15+60,y-40+80,25,0,2*Math.PI,true);
+                ctx.fillStyle="black";
+                ctx.fill();
+               
+                x1=x+15+60+25*Math.cos(3*Math.PI/2);
+                y1=y-40+80+25*Math.sin(3*Math.PI/2);
+               
+                ctx.beginPath();
+                ctx.moveTo(x1,y1);
+                ctx.lineTo(x1+170,y1+15);
+                ctx.stroke();
+               
+               
+                ctx.beginPath();
+                ctx.moveTo(x1+170,y1+45);
+                ctx.lineTo(x1,y1+50);
+                ctx.stroke();
+               
+ 
+//auto
+ 
+auto=auto+10;
+ctx.beginPath(); //front tyre
+ctx.arc(800+auto,525,30,0,2*Math.PI,true);
+ctx.arc(800+auto,525,40,0,23*Math.PI/18,true);
+ctx.fillStyle="black";
+ctx.fill();
+ctx.stroke();
+ 
+new_x=800+auto+40*Math.cos(5*Math.PI/3); //top
+new_y=525+40*Math.sin(5*Math.PI/3);
+ctx.beginPath();
+ctx.moveTo(new_x,new_y);
+ctx.lineTo(new_x+5,new_y-100);
+ctx.lineTo(new_x+15+50,new_y-100-100);
+ctx.stroke();
+ 
+ctx.beginPath();  //top yellow
+ctx.rect(new_x+15+50,new_y-100-100,320,20);
+ctx.rect(new_x+15+270,new_y-100-80,100,100);
+ctx.fillStyle="yellow";
+ctx.fill();
+ctx.lineWidth="2";
+ctx.stroke();
+ 
+ctx.lineWidth="5";
+ctx.beginPath();  // middle line
+ctx.moveTo(new_x+15+150,new_y-100-80);
+ctx.lineTo(new_x+15+150,new_y-100-80+230);
+ctx.stroke();
+ 
+ctx.beginPath();  // middle line
+ctx.moveTo(new_x+15+250,new_y-100-80+230);
+ctx.lineTo(new_x+15+250,new_y-60);
+ctx.lineTo(new_x+15+270,new_y-80);
+ctx.stroke();
+ 
+ctx.beginPath();  // back line from yellow to back tyre
+ctx.moveTo(new_x+15+370,new_y-80);
+ctx.lineTo(new_x+15+368,new_y-100+135);
+ctx.stroke();
+ 
+ctx.beginPath(); // steering
+ctx.moveTo(new_x+5,new_y-100);
+ctx.lineTo(new_x+50,new_y-120);
+ctx.stroke();
+ 
+ctx.beginPath(); // steering
+ctx.moveTo(new_x+5,new_y-100);
+ctx.lineTo(new_x+50,new_y-80);
+ctx.stroke();
+ 
+ctx.beginPath(); // driver seat
+ctx.moveTo(900+auto,540);
+ctx.lineTo(900+auto,450);
+ctx.lineTo(985+auto,450);
+ctx.stroke();
+ 
+ 
+ctx.beginPath();  // meter holder
+ctx.moveTo(1005+auto,400);
+ctx.lineTo(1005+auto,420);
+ctx.lineTo(985+auto,420);
+ctx.stroke();
+ 
+ctx.beginPath();  // meter
+ctx.rect(995+auto,350,20,50);
+ctx.fillStyle="black";
+ctx.fill();
+ctx.stroke();
+ 
+ctx.font="bold 8pt calibri";
+ctx.fillStyle="red";
+ctx.fillText("H",1000+auto,360);
+ctx.fillText("I",1002+auto,370);
+ctx.fillText("R",1001+auto,380);
+ctx.fillText("E",1001+auto,390);
+ctx.stroke();
+ 
+ 
+ctx.beginPath();  //base
+ctx.moveTo(840+auto,525);
+ctx.lineTo(840+auto+15,540);
+ctx.lineTo(840+auto+285,540);
+ctx.stroke();
+ 
+ctx.beginPath();  //back tyre
+ctx.arc(1160+auto,525,30,0,2*Math.PI,true);
+ctx.arc(1160+auto,525,40,0,8*Math.PI/9,true);
+ctx.fillStyle="black";
+ctx.fill();
+ctx.stroke();
+ 
+ 
+//hump
+hump=hump+10;
+ctx.beginPath();
+ctx.arc(100+hump,580,40,0,Math.PI,true);
+ctx.fillStyle="black";
+ctx.fill();
+ctx.closePath();
+//ctx.stroke();
+ 
+ 
+//one way signboard
+signboard=signboard+10;
+ctx.beginPath();
+ctx.lineWidth="2";
+ctx.fillStyle="black";
+ctx.moveTo(50+signboard,560);
+ctx.lineTo(50+signboard,255);
+ctx.stroke();
+ 
+ctx.beginPath();
+ctx.fillStyle="black";
+ctx.arc(50+signboard,245,40,0,2*Math.PI,true);
+ctx.closePath();
+ctx.fill();
+ctx.stroke();
+ 
+ctx.beginPath();
+ctx.fillStyle="white";
+ctx.arc(50+signboard,245,30,0,2*Math.PI,true);
+ctx.closePath();
+ctx.fill();
+ctx.stroke();
+ 
+ctx.beginPath();
+ctx.font="15pt calibri";
+ctx.fillStyle="red";
+ctx.fillText("S",25+signboard,255);
+ctx.fillText("L",35+signboard,255);
+ctx.fillText("O",45+signboard,255);
+ctx.fillText("W",55+signboard,255);
+ctx.stroke();
+ 
+//no entry zone
+ 
+noentry=noentry+10;
+ctx.beginPath();
+ctx.lineWidth="2";
+ctx.fillStyle="black";
+ctx.moveTo(50+noentry,560);
+ctx.lineTo(50+noentry,255);
+ctx.stroke();
+ 
+ctx.beginPath();
+ctx.fillStyle="black";
+ctx.arc(50+noentry,245,40,0,2*Math.PI,true);
+ctx.closePath();
+ctx.fill();
+ctx.stroke();
+ 
+ctx.beginPath();
+ctx.fillStyle="white";
+ctx.arc(50+noentry,245,30,0,2*Math.PI,true);
+ctx.closePath();
+ctx.fill();
+ctx.stroke();
+ 
+// distance board
+distance_board=distance_board+10;
+ctx.beginPath();
+ctx.lineWidth="2";
+ctx.moveTo(50+distance_board,560);
+ctx.lineTo(50+distance_board,300);
+ctx.stroke();
+ 
+ 
+ctx.beginPath();
+ctx.fillStyle="green";
+ctx.rect(-50+distance_board,200,200,100);
+ctx.fill();
+ctx.stroke();
+ 
+ctx.beginPath();
+ctx.fillStyle="white";
+ctx.font="13pt calibri";
+ctx.fillText("B",-40+distance_board,250);
+ctx.fillText("A",-30+distance_board,250);
+ctx.fillText("N",-20+distance_board,250);
+ctx.fillText("G",-10+distance_board,250);
+ctx.fillText("A",0+distance_board,250);
+ctx.fillText("L",10+distance_board,250);
+ctx.fillText("O",18+distance_board,250);
+ctx.fillText("R",30+distance_board,250);
+ctx.fillText("E",40+distance_board,250);
+ctx.fillText("-",50+distance_board,250);
+ctx.fillText("20KMS",60+distance_board,250);
+ctx.stroke();
+ 
+ctx.beginPath();
+ctx.moveTo(50+distance_board,270);
+ctx.lineTo(50+distance_board-50,270);
+ctx.lineTo(50+distance_board-50,260);
+ctx.lineTo(50+distance_board-70,272);
+ctx.lineTo(50+distance_board-50,284);
+ctx.lineTo(50+distance_board-50,274);
+ctx.lineTo(50+distance_board,274);
+ctx.lineTo(50+distance_board,269);
+ctx.fillStyle="white";
+ctx.fill();
+ctx.stroke();
+ 
+ 
+// straight arrow
+ctx.beginPath();
+ctx.strokeStyle="red";
+ctx.moveTo(45+noentry,260);
+ctx.lineTo(45+noentry,235);
+ctx.lineTo(40+noentry,235);
+ctx.lineTo(50+noentry,225);
+ctx.lineTo(60+noentry,235);
+ctx.lineTo(55+noentry,235);
+ctx.lineTo(55+noentry,260);
+ctx.lineTo(45+noentry,260);
+ctx.fillStyle="red";
+ctx.fill()
+ctx.stroke();
+ 
+arrow_x=50+noentry+30*Math.cos(7*Math.PI/9);
+arrow_y=245+30*Math.sin(7*Math.PI/9);
+ 
+arrow_x1=50+noentry+30*Math.cos(16*Math.PI/9);
+arrow_y1=245+30*Math.sin(16*Math.PI/9);
+ 
+ctx.beginPath();
+ctx.moveTo(arrow_x,arrow_y);
+ctx.lineTo(arrow_x1,arrow_y1);
+ctx.strokeStyle="black";
+ctx.stroke();
+ 
+//milestone
+milestone=milestone+10;
+ctx.beginPath();  // milestone base
+ctx.moveTo(700+milestone,560);
+ctx.lineTo(700+milestone,500);
+ctx.lineTo(770+milestone,500);
+ctx.lineTo(770+milestone,560);
+ctx.fillStyle="white";
+ctx.fill();
+ctx.stroke();
+ 
+ctx.beginPath();  //milestone arc
+ctx.arc(735+milestone,500,35,0,Math.PI,true);
+ctx.fillStyle="yellow";
+ctx.fill();
+ctx.stroke();
+ 
+ctx.beginPath();
+ctx.font="15pt calibri";
+ctx.fillStyle="black";
+ctx.fillText("NH-17",710+milestone,495);
+ctx.fillText("Udupi",710+milestone,530);
+ctx.font="12pt calibri";
+ctx.fillText("732 KM",710+milestone,550);
+ctx.stroke();
+ 
+//Indian oil outlet
+indian_oil+=10;
+ 
+ctx.beginPath();
+ctx.rect(500+indian_oil,200,150,360);
+ctx.fillStyle="lightgrey";
+ctx.fill();
+ctx.stroke();
+ 
+ctx.beginPath();
+ctx.arc(575+indian_oil,280,70,0,2*Math.PI,true);
+ctx.fillStyle="white";
+ctx.fill();
+ctx.stroke();
+
+
+ctx.beginPath();
+ctx.arc(575+indian_oil,280,65,0,2*Math.PI,true);
+ctx.fillStyle="#E68A00";
+ctx.fill();
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo((575+indian_oil+65*Math.cos(10/9*Math.PI)),(280+65*Math.sin(10/9*Math.PI)));
+ctx.lineTo((575+indian_oil+65*Math.cos(34/18*Math.PI)),(280+65*Math.sin(34/18*Math.PI)));
+ctx.stroke();
+ 
+ctx.beginPath();
+ctx.moveTo((575+indian_oil+65*Math.cos(16/18*Math.PI)),(280+65*Math.sin(16/18*Math.PI)));
+ctx.lineTo((575+indian_oil+65*Math.cos(1/9*Math.PI)),(280+65*Math.sin(1/9*Math.PI)));
+ctx.stroke(); 
+
+ctx.beginPath();
+ctx.font="20pt calibri";
+ctx.fillStyle="blue";
+ctx.fillText("Indian Oil",525+indian_oil,285);
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(500+indian_oil,400);
+ctx.lineTo(650+indian_oil,400);
+ctx.lineTo(650+indian_oil,430);
+ctx.lineTo(500+indian_oil,430);
+ctx.lineTo(500+indian_oil,400);
+ctx.fillStyle="#E68A00";
+ctx.fill();
+ctx.font="18pt calibri";
+ctx.fillStyle="white";
+ctx.fillText("PETROL",530+indian_oil,423);
+ctx.stroke();
+
+
+ctx.beginPath();
+ctx.moveTo(500+indian_oil,440);
+ctx.lineTo(650+indian_oil,440);
+ctx.lineTo(650+indian_oil,470);
+ctx.lineTo(500+indian_oil,470);
+ctx.lineTo(500+indian_oil,440);
+ctx.fillStyle="#E68A00";
+ctx.fill();
+ctx.font="18pt calibri";
+ctx.fillStyle="white";
+ctx.fillText("DIESEL",530+indian_oil,463);
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(500+indian_oil,480);
+ctx.lineTo(650+indian_oil,480);
+ctx.lineTo(650+indian_oil,510);
+ctx.lineTo(500+indian_oil,510);
+ctx.lineTo(500+indian_oil,480);
+ctx.fillStyle="#E68A00";
+ctx.fill();
+ctx.font="18pt calibri";
+ctx.fillStyle="white";
+ctx.fillText("AIR",530+indian_oil,503);
+ctx.stroke();
+ 
+ctx.beginPath();
+ctx.rect(700+indian_oil,200,500,100);
+ctx.fillStyle="#E68A00";  //orange
+ctx.fill();
+ctx.closePath();
+ 
+ctx.beginPath();
+ctx.rect(700+indian_oil,200,500,20);
+ctx.fillStyle="blue";
+ctx.fill();
+ctx.closePath();
+ 
+ctx.beginPath();
+ctx.font="65pt calibri";
+ctx.fillStyle="white";
+ctx.fillText("Indian Oil",750+indian_oil,280);
+ctx.stroke();
+ 
+//petrol
+ctx.beginPath();
+ctx.rect(800+indian_oil,400,100,160);
+ctx.fillStyle="white";
+ctx.fill();
+ctx.stroke();
+ 
+ctx.beginPath(); // diesel pourer
+ctx.rect(900+indian_oil,440,20,50);
+ctx.fillStyle="black";
+ctx.fill();
+ctx.stroke();
+ 
+ctx.beginPath();
+ctx.font="20pt calibri";
+ctx.fillStyle="black";
+ctx.fillText("Petrol",820+indian_oil,430);
+ctx.stroke();
+ 
+//diesel
+ctx.beginPath(); // white rect
+ctx.rect(1000+indian_oil,400,100,160);
+ctx.fillStyle="white";
+ctx.fill();
+ctx.stroke();
+ 
+ 
+ctx.beginPath(); // diesel pourer
+ctx.rect(1100+indian_oil,440,20,50);
+ctx.fillStyle="black";
+ctx.fill();
+ctx.stroke();
+ 
+ctx.beginPath();
+ctx.font="20pt calibri";
+ctx.fillStyle="black";
+ctx.fillText("Diesel",1020+indian_oil,430);
+ctx.stroke();
+ 
+back_canvas();
+ 
+}
+var build_interval;
+function call_building(){
+build_interval=setInterval(buildings,10);
+setTimeout(reset_building,10000);
+}
+ 
+function reset_building(){
+clearInterval(build_interval);
+building=0;
+call_building();
+}
+ 
+function buildings(){
+ctx.clearRect(0,0,1100,200);
+building++;
+ctx.rect(0+building,10,20,180);// 1st building
+ctx.rect(-20+building,80,20,110);
+ 
+ 
+ctx.rect(-70+building,10,20,180);// 2nd
+ctx.rect(-100+building,60,20,130);
+ctx.fillStyle="black";
+ctx.fill();
+ctx.stroke();
+ 
+ctx.beginPath();
+ctx.moveTo(-180+building,190);
+ctx.lineTo(-180+building,90);
+ctx.lineTo(-240+building,40);
+ctx.lineTo(-300+building,90);
+ctx.lineTo(-300+building,190);
+ctx.closePath();
+ctx.fillStyle="black";
+ctx.fill();
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(-210+building,192);
+ctx.lineTo(-210+building,150);
+ctx.lineTo(-260+building,150);
+ctx.lineTo(-260+building,192);
+ctx.fillStyle="white";
+ctx.fill();
+ctx.stroke();
+ 
+ 
+ctx.rect(475+building,70,50,40);
+ctx.rect(450+building,110,100,40);
+ctx.rect(400+building,150,200,40);
+ctx.fillStyle="black";
+ctx.fill();
+ 
+ctx.beginPath();
+ctx.moveTo(500+building,120);
+ctx.lineTo(500+building,10);
+ctx.stroke();
+ 
+ctx.rect(-800+building,100,300,90);
+ctx.fillStyle="black";
+ctx.fill();
+ctx.stroke();
+}
+ 
+function headlights_on(){
+               
+                ctx.beginPath();
+                ctx.fillStyle="yellow";
+                ctx.moveTo(100,430);
+                ctx.lineTo(10,410);
+                ctx.lineTo(10,450);
+                ctx.lineTo(100,430);
+               
+                ctx.moveTo(90,480);
+                ctx.lineTo(10,460);
+                ctx.lineTo(10,500);
+                ctx.lineTo(90,480);
+                ctx.fill();
+}
+ 
+function headlights_off(){
+               
+                ctx.beginPath();
+                ctx.fillStyle="lightgrey";
+                ctx.moveTo(100,430);
+                ctx.lineTo(10,410);
+                ctx.lineTo(10,450);
+                ctx.lineTo(100,430);
+               
+                ctx.moveTo(90,480);
+                ctx.lineTo(10,460);
+                ctx.lineTo(10,500);
+                ctx.lineTo(90,480);
+                ctx.fill();
+}
+ 
+var int1;
+function start_indicator(){
+int1=setInterval(color1,2000);
+}
+ 
+function color1(){
+                document.getElementById("indicator").style.backgroundColor="yellow";
+                document.getElementById("indicator_back").style.backgroundColor="yellow";
+                document.getElementById("tail_lamp1").style.backgroundColor="red";
+                document.getElementById("tail_lamp2").style.backgroundColor="red";
+                setTimeout(color2,1000);
+}
+ 
+function color2(){
+                document.getElementById("indicator").style.backgroundColor="";
+                document.getElementById("indicator_back").style.backgroundColor="";
+}
+ 
+ 
+function stop_indicator(){
+clearInterval(int1);
+}
+ 
+ 
+var i=0;
+var st;
+function startengine(){
+ 
+i=0;
+st=setInterval(start_eng,50);
+setTimeout(restart,1000);
+}
+ 
+function start_eng(){
+i++;
+ctx.beginPath();
+ctx.moveTo(660+2*i,520-i);
+ctx.lineTo(655+i,520-i);
+ctx.stroke();
+}
+ 
+function restart(){
+i=0;
+clearInterval(st);
+road();
+call_building();
+move_second_car();
+}
+ 
+ 
+ 
+var interv;
+var tyre_rot_int;
+function road(){
+setTimeout(road_restart,2190);
+interv=setInterval(road_move,13);
+tyre_rot_int=setInterval(canvas_draw,100);
+}
+function road_move(){
+context.clearRect(0,0,1100,560);
+p++;
+context.beginPath();
+context.fillStyle="white";
+context.strokeStyle="white";
+//context.lineWidth="1";
+context.rect(-730+2*p,120,300,20);
+context.fill();
+ 
+context.rect(-370+2*p,120,300,20);
+context.fill();
+ 
+context.rect(-10+2*p,120,300,20);
+context.fill();
+ 
+context.rect(350+2*p,120,300,20);
+context.fill();
+ 
+context.rect(710+2*p,120,300,20);
+context.fill();
+context.stroke();
+}
+ 
+function road_restart(){
+                clearInterval(interv);
+                clearInterval(tyre_rot_int);
+                //context.save();
+                //context.setTransform(1,0,0,1,0,0);
+                context.clearRect(0,0,1100,560);
+                //context.restore();
+                p=0;
+               
+                road();
+}
+ 
+</script>
+ 
+ 
+<script type="text/javascript">
+var b=document.getElementById("backcanvas");
+var con=b.getContext("2d");
+var m=0;
+var int3;
+var flag=0;
+var viper=0;
+var moverain=0;
+var stripes=0;
+function back_canvas(){
+ 
+//dikki
+con.beginPath();
+con.strokeStyle="black";
+con.lineWidth="2";
+con.moveTo(300,450);
+con.lineTo(300,300);
+con.lineTo(600,300);
+con.lineTo(600,450);
+con.lineTo(300,450);
+con.stroke();
+ 
+ 
+//back glass
+con.beginPath();
+con.strokeStyle="black";
+con.lineWidth="2";
+con.moveTo(300,300);
+con.lineTo(350,200);
+con.lineTo(550,200);
+con.lineTo(600,300);
+con.stroke();
+ 
+ 
+//back extra tyre
+con.beginPath();
+con.arc(450,365,50,0,2*Math.PI,true);
+con.fillStyle="black";
+con.fill();
+con.stroke();
+con.beginPath();
+con.arc(450,365,10,0,2*Math.PI,true);
+con.fillStyle="white";
+con.fill();
+con.stroke();
+ 
+//back window rain
+moverain=moverain+4;
+if(moverain>150){
+moverain=0;
+}
+con.clearRect(350,98,200,100);
+con.beginPath();
+con.moveTo(360,100+moverain);
+con.lineTo(360,103+moverain);
+con.stroke();
+con.beginPath();
+con.moveTo(360,120+moverain);
+con.lineTo(360,123+moverain);
+con.stroke();
+ 
+ 
+con.beginPath();
+con.moveTo(400,105+moverain);
+con.lineTo(400,108+moverain);
+con.stroke();
+con.beginPath();
+con.moveTo(420,130+moverain);
+con.lineTo(420,133+moverain);
+con.stroke();
+ 
+ 
+con.beginPath();
+con.moveTo(460,103+moverain);
+con.lineTo(460,106+moverain);
+con.stroke();
+con.beginPath();
+con.moveTo(475,135+moverain);
+con.lineTo(475,138+moverain);
+con.stroke();
+ 
+ 
+con.beginPath();
+con.moveTo(430,107+moverain);
+con.lineTo(430,110+moverain);
+con.stroke();
+con.beginPath();
+con.moveTo(445,120+moverain);
+con.lineTo(445,123+moverain);
+con.stroke();
+ 
+ 
+ 
+//back viper
+con.clearRect(350,201,200,98);
+if(flag==1){
+viper--;
+con.beginPath();
+con.moveTo(500,300);
+con.lineTo(425+viper,205-viper);
+con.stroke();
+}
+else{
+viper++;
+con.beginPath();
+con.moveTo(500,300);
+con.lineTo(350+viper,280-viper);
+con.stroke();
+}
+if(viper==75){
+ 
+flag=1;
+viper=-1;
+}
+if(viper==-75){
+ 
+flag=0;
+viper=1;
+}
+//back tyre left
+con.beginPath();
+con.rect(350,450,25,50);
+con.fillStyle="black";
+con.fill();
+con.stroke();
+ 
+//back tyre right
+con.beginPath();
+con.rect(525,450,25,50);
+con.fillStyle="black";
+con.fill();
+con.stroke();
+ 
+//back number plate
+con.beginPath();
+con.rect(400,425,100,25);
+con.stroke();
+con.font='10pt calibri';
+con.fillText("KA-19M-2090",415,440);
+ 
+con.beginPath();
+con.moveTo(320,450);
+con.lineTo(280,900);
+con.stroke();
+ 
+con.beginPath();
+con.moveTo(580,450);
+con.lineTo(620,900);
+con.stroke();
+ 
+ 
+}
+ 
+var road_interval;
+function draw_back_road(){
+                road_interval=setInterval(back_road,10);
+                setTimeout(clearRoad,1000);
+}
+ 
+function clearRoad(){
+clearInterval(road_interval);
+stripes=0;
+draw_back_road();
+}
+ 
+function back_road(){
+//back road
+con.clearRect(400,451,100,430);
+stripes++;
+ 
+con.rect(440,450+stripes,20,180);
+con.fillStyle="black";
+con.fill();
+con.stroke();
+con.rect(440,700+stripes,20,200);
+con.fillStyle="black";
+con.fill();
+con.stroke();
+ 
+}
+ 
+ 
+function back_brakes(){
+var tail_lamp=document.getElementsByClassName("tail_lamps");
+for(var ele in tail_lamp){
+                tail_lamp[ele].bgColor="red";
+}
+}
+var int1;
+var int2;
+function back_left_indicator(){
+int1=setInterval(blink_left,2000);
+document.getElementById("back_button1").disabled=true;
+document.getElementById("back_button2").disabled=false;
+clearInterval(int2);
+}
+ 
+function blink_left(){
+document.getElementById("left_indi").style.backgroundColor="yellow";
+setTimeout(blink_left1,1000);
+}
+ 
+function blink_left1(){
+document.getElementById("left_indi").style.backgroundColor="";
+}
+ 
+function back_right_indicator(){
+int2=setInterval(blink_right,2000);
+document.getElementById("back_button2").disabled=true;
+document.getElementById("back_button1").disabled=false;
+clearInterval(int1);
+}
+ 
+function blink_right(){
+document.getElementById("right_indi").style.backgroundColor="yellow";
+setTimeout(blink_right1,1000);
+}
+ 
+function blink_right1(){
+document.getElementById("right_indi").style.backgroundColor="";
+}
+ 
+ 
+function back_viper(){
+draw_back_road();
+int3=setInterval(back_canvas,20);
+}
+</script>
+ 
+</html>
